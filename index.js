@@ -33,6 +33,33 @@ const adventure = [
     }
 ];
 
+const firstDirectionChoice = {
+    'North': {
+        type: 'list',
+        name: 'northAction',
+        message: 'Do you proceed foward?',
+        choices: ['Yes', 'No']
+    },
+    'South': {
+        type: 'list',
+        name: 'southAction',
+        message: 'Do you proceed foward?',
+        choices: ['Yes', 'No']
+    },
+    'East': {
+        type: 'list',
+        name: 'eastAction',
+        message: 'Do you proceed foward?',
+        choices: ['Yes', 'No']
+    },
+    'West': {
+        type: 'list',
+        name: 'westAction',
+        message: 'Do you proceed foward?',
+        choices: ['Yes', 'No']
+    }
+};
+
 inquirer.prompt(adventure.slice(0, 1)).then(answers => {
     console.log(`Welcome to your death ${answers['player-name']}`);
     return inquirer.prompt(adventure.slice(1, 2)).then(intialWeaponChoice => {
@@ -75,6 +102,11 @@ inquirer.prompt(adventure.slice(0, 1)).then(answers => {
             default:
                 console.log('You need to choose a direction');
         }
+
+        const firstDirectionPrompt = firstDirectionChoice[directionChoice.direction];
+        return inquirer.prompt(firstDirectionPrompt).then(firstDirectionAnswer => {
+            console.log(`${firstDirectionAnswer[Object.keys(firstDirectionAnswer)[0]]}`)
+        })
     })
     });
 });
