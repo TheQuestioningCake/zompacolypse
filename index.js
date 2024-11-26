@@ -60,6 +60,22 @@ const firstDirectionChoice = {
     }
 };
 
+const directionPrompt = {
+    type: 'list',
+    name: 'direction',
+    message: 'Choose a direction',
+    choices: ['North', 'South', 'East', 'West']
+}
+
+const firstNorth = [
+    {
+        type: 'list',
+        name: 'enterFirstHouse',
+        message: "You've walked up to decrepit house, it appears as if no one has lived here even before the apocalpyse began. Do you enter?",
+        choices: ['Yes', 'No']
+    }
+]
+
 inquirer.prompt(adventure.slice(0, 1)).then(answers => {
     console.log(`Welcome to your death ${answers['player-name']}`);
     return inquirer.prompt(adventure.slice(1, 2)).then(intialWeaponChoice => {
@@ -89,6 +105,16 @@ inquirer.prompt(adventure.slice(0, 1)).then(answers => {
         switch(directionChoice.direction) {
             case 'North':
                 console.log('You spot a house in distance');
+                return inquirer.prompt(firstNorth).then(northAnswers => {
+                    if (northAnswers.enterFirstHouse === 'Yes') {
+                        console.log('You decided to enter the house, but be wary, danger may be afoot')
+                    } else {
+                        console.log('You decided to turn back around');
+                        return inquirer.prompt([directionPrompt]).then(newDirectionChoice => {
+                            console.log(`You decided to go ${newDirecitonChoice.direction} instead`)
+                        })
+                    }
+                })
                 break;
             case 'South':
                 console.log('You spot a figure in the distance');
