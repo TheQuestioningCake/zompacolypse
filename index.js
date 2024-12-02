@@ -76,12 +76,42 @@ const firstNorth = [
     }
 ]
 
+function handleDirectionChoice(directionChoice) {
+    switch (directionChoice.direction) {
+        case 'North':
+            console.log('You spot a house in distance');
+            return inquirer.prompt(firstNorth).then(northAnswers => {
+                if (northAnswers.enterFirstHouse === 'Yes') {
+                    console.log('You decided to enter the house, but be wary, danger may be afoot');
+                    // Continue with further prompts or actions if needed
+                } else {
+                    console.log('You decided to turn back around');
+                    return inquirer.prompt([directionPrompt]).then(newDirectionChoice => {
+                        console.log(`You decided to go ${newDirectionChoice.direction} instead`);
+                        return handleDirectionChoice(newDirectionChoice); // Recursively handle the new direction choice
+                    });
+                }
+            });
+        case 'South':
+            console.log('You spot a figure in the distance');
+            break;
+        case 'East':
+            console.log('You spot a car crash in the distance');
+            break;
+        case 'West':
+            console.log('You spot a road leading towards town');
+            break;
+        default:
+            console.log('You need to choose a direction');
+    }
+}
+
 inquirer.prompt(adventure.slice(0, 1)).then(answers => {
     console.log(`Welcome to your death ${answers['player-name']}`);
     return inquirer.prompt(adventure.slice(1, 2)).then(intialWeaponChoice => {
 
         const allAnswers = { ...answers, ...intialWeaponChoice };
-        
+
         switch (allAnswers.intialWeapon) {
             case 'Knife':
                 console.log('You chose the Knife. Sharp choice!');
@@ -98,41 +128,10 @@ inquirer.prompt(adventure.slice(0, 1)).then(answers => {
             default:
                 console.log('You chose an unknown weapon.');
         }
-    return inquirer.prompt(adventure.slice(2)).then(intialDirectionChoice => {
 
-        const directionChoice = {...allAnswers, ...intialDirectionChoice}
-
-        switch(directionChoice.direction) {
-            case 'North':
-                console.log('You spot a house in distance');
-                return inquirer.prompt(firstNorth).then(northAnswers => {
-                    if (northAnswers.enterFirstHouse === 'Yes') {
-                        console.log('You decided to enter the house, but be wary, danger may be afoot')
-                    } else {
-                        console.log('You decided to turn back around');
-                        return inquirer.prompt([directionPrompt]).then(newDirectionChoice => {
-                            console.log(`You decided to go ${newDirecitonChoice.direction} instead`)
-                        })
-                    }
-                })
-                break;
-            case 'South':
-                console.log('You spot a figure in the distance');
-                break;
-            case 'East':
-                console.log('You spot a car crash in the distance');
-                break;
-            case 'West':
-                console.log('You spot a road leading towards town');
-                break;
-            default:
-                console.log('You need to choose a direction');
-        }
-
-        const firstDirectionPrompt = firstDirectionChoice[directionChoice.direction];
-        return inquirer.prompt(firstDirectionPrompt).then(firstDirectionAnswer => {
-            console.log(`${firstDirectionAnswer[Object.keys(firstDirectionAnswer)[0]]}`)
-        })
-    })
+        return inquirer.prompt(adventure.slice(2)).then(intialDirectionChoice => {
+            const directionChoice = { ...allAnswers, ...intialDirectionChoice };
+            return handleDirectionChoice(directionChoice);
+        });
     });
 });
