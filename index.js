@@ -53,6 +53,13 @@ const firstNorthHouse = [
     },
 ];
 
+const directionPrompt = {
+    type: 'list',
+    name: 'direction',
+    message: 'Choose a direction:',
+    choices: ['North', 'South', 'East', 'West'], // Ensure these match your game logic
+};
+
 function handleDirectionChoice(playerState, directionChoice) {
     switch (directionChoice.direction) {
         case 'North':
@@ -81,11 +88,13 @@ function handleDirectionChoice(playerState, directionChoice) {
                                 console.log('Invalid choice.');
                         }
                     });
-                } else {
+                } else if (northAnswers.enterFirstHouse === 'No') {
                     console.log('You decide to turn back.');
                     return inquirer.prompt([directionPrompt]).then(newDirectionChoice => {
                         return handleDirectionChoice(playerState, newDirectionChoice);
                     });
+                } else {
+                    console.log('Invalid Choice')
                 }
             });
         case 'South':
