@@ -94,7 +94,7 @@ function handleDirectionChoice(directionChoice) {
                     console.log('You decided to enter the house, but be wary, danger may be afoot');
                     return inquirer.prompt(firstNorthHouse).then(firstNHanswers =>  {
 
-                        switch(firstHouseChoices) {
+                        switch(firstNHanswers.firstHouseChoices) {
                             case 'Up': 
                                 console.log('You walk up the steps nearly plummeting through a decaying step, as you reach the top you spot a figure')
                                 break;
@@ -103,6 +103,9 @@ function handleDirectionChoice(directionChoice) {
                                 break;
                             case 'Left':
                                 console.log('As you enter the livingroom, the family rises. They rush you and tackle you down. Swiftly knawing at your neck and clawing you apart. GAME OVER')
+                                break;
+                            default:
+                                console.log('Invalid Choice')
                         }
                     })
                 } else {
