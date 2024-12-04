@@ -76,6 +76,15 @@ const firstNorth = [
     }
 ]
 
+const firstNorthHouse = [
+    {
+        type: 'list',
+        name: 'firstHouseChoices',
+        message: "You've entered the house, there's a rotten smell in the air. Before you lays a set of crooked stairs, to your right looks like what used to be a kitchen, and to your left rest the remains of the family that used to live here.",
+        choices: ['Up', 'Right', 'Left']
+    }
+]
+
 function handleDirectionChoice(directionChoice) {
     switch (directionChoice.direction) {
         case 'North':
@@ -83,7 +92,19 @@ function handleDirectionChoice(directionChoice) {
             return inquirer.prompt(firstNorth).then(northAnswers => {
                 if (northAnswers.enterFirstHouse === 'Yes') {
                     console.log('You decided to enter the house, but be wary, danger may be afoot');
-                    // Continue with further prompts or actions if needed
+                    return inquirer.prompt(firstNorthHouse).then(firstNHanswers =>  {
+
+                        switch(firstHouseChoices) {
+                            case 'Up': 
+                                console.log('You walk up the steps nearly plummeting through a decaying step, as you reach the top you spot a figure')
+                                break;
+                            case 'Right':
+                                console.log('You walk into the kitchen, rats disperse in every direction. The air fouler than you first entered. You see a figure hovering over the stove. They grunt eerily')
+                                break;
+                            case 'Left':
+                                console.log('As you enter the livingroom, the family rises. They rush you and tackle you down. Swiftly knawing at your neck and clawing you apart. GAME OVER')
+                        }
+                    })
                 } else {
                     console.log('You decided to turn back around');
                     return inquirer.prompt([directionPrompt]).then(newDirectionChoice => {
