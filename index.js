@@ -48,16 +48,25 @@ const firstNorthHouse = [
         type: 'list',
         name: 'firstHouseChoices',
         message:
-            "There's a rotten smell in the air. You see stairs, a kitchen, and a living room. Where do you go?",
+            "There's a rotten smell in the air. You see a decrpyted set of stairs, a rundown kitchen, and a living room with what appears to be the remains of the family living there. Where do you go?",
         choices: ['Up', 'Right', 'Left'],
     },
+];
+
+const firstNorthHouseUp= [
+    {
+        type: 'list',
+        name: 'firstNorthUp',
+        message: `As you approach the shadowy figure, a rotten smell infiltrates your nose. The figure approaches closer, its crippling moan sending a shiver down your spine. Your first zombie. What do you do?`,
+        choices: ['Attack', 'Run']
+    }
 ];
 
 const directionPrompt = {
     type: 'list',
     name: 'direction',
     message: 'Choose a direction:',
-    choices: ['North', 'South', 'East', 'West'], // Ensure these match your game logic
+    choices: ['North', 'South', 'East', 'West']
 };
 
 function handleDirectionChoice(playerState, directionChoice) {
@@ -73,6 +82,12 @@ function handleDirectionChoice(playerState, directionChoice) {
                                 console.log(
                                     `You walk up the steps, holding your ${playerState.weapon}, nearly falling through a broken step. You see a shadowy figure.`
                                 );
+                                return inquirer.prompt(firstNorthHouseUp)
+                                .then(firstNorthUpAnswers => {
+                                    if (firstNorthUpAnswers.firstNorthUp === 'Attack' && playerState.weapon === 'Pistol') {
+                                        console.log(`You release the first bullet in the chamber of your ${playerState.weapon}. The shot echoes throughout the house, calling the residents to your location. You hesitate due to fear. Your first horde, and your last. GAME OVER`)
+                                    }
+                                })
                                 break;
                             case 'Right':
                                 console.log(
@@ -120,12 +135,12 @@ function handleDirectionChoice(playerState, directionChoice) {
 inquirer
     .prompt(adventure.slice(0, 1))
     .then(answers => {
-        playerState.name = answers['player-name']; // Save player's name
+        playerState.name = answers['player-name'];
         console.log(`Welcome, ${playerState.name}.`);
         return inquirer.prompt(adventure.slice(1, 2));
     })
     .then(initialWeaponChoice => {
-        playerState.weapon = initialWeaponChoice.intialWeapon; // Save weapon choice
+        playerState.weapon = initialWeaponChoice.intialWeapon; 
         
         switch (playerState.weapon) {
             case 'Knife':
@@ -137,7 +152,7 @@ inquirer
             case 'Baseball bat':
                 console.log("BATTER UP!! Just don't let it be a swing and a miss");
                 break;
-            case 'Pistol': // Add a case for the "Pistol" explicitly, if desired
+            case 'Pistol':
                 console.log("Hope you don't attract a horde with that");
                 break;
             default:
