@@ -144,7 +144,6 @@ inquirer
                 console.log('An unconventional choice, huh?');
                 break;
         }
-        // console.log(`You chose the ${playerState.weapon}. Great choice!`);
         return inquirer.prompt(adventure.slice(2));
     })
     .then(initialDirectionChoice => {
