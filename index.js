@@ -126,7 +126,25 @@ inquirer
     })
     .then(initialWeaponChoice => {
         playerState.weapon = initialWeaponChoice.intialWeapon; // Save weapon choice
-        console.log(`You chose the ${playerState.weapon}. Great choice!`);
+        
+        switch (playerState.weapon) {
+            case 'Knife':
+                console.log('Sharp thinking kid');
+                break;
+            case 'Frying pan':
+                console.log('Someone plays a little too much PUBG');
+                break;
+            case 'Baseball bat':
+                console.log("BATTER UP!! Just don't let it be a swing and a miss");
+                break;
+            case 'Pistol': // Add a case for the "Pistol" explicitly, if desired
+                console.log("Hope you don't attract a horde with that");
+                break;
+            default:
+                console.log('An unconventional choice, huh?');
+                break;
+        }
+        // console.log(`You chose the ${playerState.weapon}. Great choice!`);
         return inquirer.prompt(adventure.slice(2));
     })
     .then(initialDirectionChoice => {
