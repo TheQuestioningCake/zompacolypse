@@ -1,3 +1,5 @@
+import playerState from "./player-state.js";
+
 const firstNorth = [
     {
         type: 'list',
@@ -26,4 +28,13 @@ const firstNorthHouseUp= [
     }
 ];
 
-export { firstNorth, firstNorthHouse, firstNorthHouseUp}
+const firstNorthUpstairs = [
+    {
+        type: 'list',
+        name: 'firstNorthUpstairs',
+        message: `After your first encounter with a zombie, you hold your chest questioning if you'll ever be able to survive this new world. Gripping your ${playerState.weapon} you look around. You see two bedrooms, one has the roof crashing through it, and the other surprisingly not as rundown as the rest of the house. What do you do?`,
+        choices:['First bedroom', 'Second bedroom', 'Turn back' ]
+    }
+]
+
+export { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs}

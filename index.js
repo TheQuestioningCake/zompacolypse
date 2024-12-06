@@ -2,7 +2,7 @@ import fs from 'fs';
 import inquirer from 'inquirer'
 import chalk from 'chalk';
 import {adventure, directionPrompt} from './utils/adventure.js'
-import {firstNorth, firstNorthHouse, firstNorthHouseUp} from './utils/first-north-scenarios.js';
+import {firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs} from './utils/first-north-scenarios.js';
 import playerState from './utils/player-state.js';
 
 
@@ -40,6 +40,14 @@ function handleDirectionChoice(playerState, directionChoice) {
                                         const weapon = playerState.weapon;
                                     
                                         console.log(responses[action]?.[weapon] || responses.default);
+                                        return inquirer
+                                            .prompt(firstNorthUpstairs)
+                                            .then(firstNorthUpstairsAnswers => {
+                                                switch(firstNorthUpstairsAnswers.firstNorthUpstairs) {
+                                                    case 'First bedroom':
+                                                        console.log(chalk.red.bold('Really? You chose this room? We told you there was a part of the roof crashing through it. As you walk into the room you crash through the floor into the living room. Disturbing the family, they maw you to death. GAME OVER!!!'))
+                                                }
+                                            })
                                     });
                                 break;
                             case 'Right':
