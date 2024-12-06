@@ -86,8 +86,16 @@ function handleDirectionChoice(playerState, directionChoice) {
                                 .then(firstNorthUpAnswers => {
                                     if (firstNorthUpAnswers.firstNorthUp === 'Attack' && playerState.weapon === 'Pistol') {
                                         console.log(`You release the first bullet in the chamber of your ${playerState.weapon}. The shot echoes throughout the house, calling the residents to your location. You hesitate due to fear. Your first horde, and your last. GAME OVER`)
+                                    } else if (firstNorthUpAnswers.firstNorthUp === 'Attack' && playerState.weapon === 'Knife') {
+                                        console.log(`You quickly rush the zombie with your ${playerState.weapon}, like an assassin following his creed. You may be a natural`)
+                                    } else if (firstNorthUpAnswers.firstNorthUp === 'Attack' && playerState.weapon === 'Frying pan') {
+                                        console.log(`Luckily enough the zombie didn't notice at first but with your ${playerState.weapon}, you were able to serve up some smooth home cooking.`)
+                                    } else if (firstNorthUpAnswers.firstNorthUp === 'Attack' && playerState.weapon === 'Baseball bat') {
+                                        console.log(`Dun dun dun dun, do da do. You swing with your ${playerState.weapon}. Who knew you'd be able to hit a homerun during the apocalypse`)
+                                    } else {
+                                        console.log('Guess you have no real survival instincts, you nearly fell through a broken stair. Why would you run down them? GAME OVER!')
                                     }
-                                })
+                                });
                                 break;
                             case 'Right':
                                 console.log(
