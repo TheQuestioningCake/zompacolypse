@@ -84,7 +84,6 @@ function handleDirectionChoice(playerState, directionChoice) {
                                 );
                                 return inquirer.prompt(firstNorthHouseUp)
                                 .then(firstNorthUpAnswers => {
-                                    return inquirer.prompt(firstNorthHouseUp).then(firstNorthUpAnswers => {
                                         const responses = {
                                             Attack: {
                                                 Pistol: `You release the first bullet in the chamber of your ${playerState.weapon}. The shot echoes throughout the house, calling the residents to your location. You hesitate due to fear. Your first horde, and your last. GAME OVER`,
@@ -100,8 +99,6 @@ function handleDirectionChoice(playerState, directionChoice) {
                                     
                                         console.log(responses[action]?.[weapon] || responses.default);
                                     });
-                                    
-                                });
                                 break;
                             case 'Right':
                                 console.log(
