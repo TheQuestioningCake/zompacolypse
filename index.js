@@ -1,89 +1,31 @@
-const fs = require('fs');
-const inquirer = require('inquirer');
+import fs from 'fs';
+import inquirer from 'inquirer'
+import chalk from 'chalk';
+import {adventure, directionPrompt} from './utils/adventure.js'
+import {firstNorth, firstNorthHouse, firstNorthHouseUp} from './utils/first-north-scenarios.js';
+import playerState from './utils/player-state.js';
 
-const adventure = [
-    {
-        type: 'input',
-        name: 'player-name',
-        message: 'What is your name?',
-        validate: function (input) {
-            if (input.trim() === '') {
-                return 'Please enter a name for your character';
-            }
-            return true;
-        },
-    },
-    {
-        type: 'list',
-        name: 'intialWeapon',
-        message: 'Choose your weapon?',
-        choices: ['Knife', 'Frying pan', 'Baseball bat', 'Pistol'],
-    },
-    {
-        type: 'list',
-        name: 'direction',
-        message: 'Choose a direction',
-        choices: ['North', 'South', 'East', 'West'],
-    },
-];
-
-const playerState = {
-    name: '',
-    weapon: '',
-    health: 100,
-    inventory: [],
-};
-
-const firstNorth = [
-    {
-        type: 'list',
-        name: 'enterFirstHouse',
-        message: "You've walked up to a decrepit house. Do you enter?",
-        choices: ['Yes', 'No'],
-    },
-];
-
-const firstNorthHouse = [
-    {
-        type: 'list',
-        name: 'firstHouseChoices',
-        message:
-            "There's a rotten smell in the air. You see a decrpyted set of stairs, a rundown kitchen, and a living room with what appears to be the remains of the family living there. Where do you go?",
-        choices: ['Up', 'Right', 'Left'],
-    },
-];
-
-const firstNorthHouseUp= [
-    {
-        type: 'list',
-        name: 'firstNorthUp',
-        message: `As you approach the shadowy figure, a rotten smell infiltrates your nose. The figure approaches closer, its crippling moan sending a shiver down your spine. Your first zombie. What do you do?`,
-        choices: ['Attack', 'Run']
-    }
-];
-
-const directionPrompt = {
-    type: 'list',
-    name: 'direction',
-    message: 'Choose a direction:',
-    choices: ['North', 'South', 'East', 'West']
-};
 
 function handleDirectionChoice(playerState, directionChoice) {
     switch (directionChoice.direction) {
         case 'North':
             console.log('You spot a house in the distance...');
-            return inquirer.prompt(firstNorth).then(northAnswers => {
+            return inquirer
+            .prompt(firstNorth)
+            .then(northAnswers => {
                 if (northAnswers.enterFirstHouse === 'Yes') {
                     console.log('You cautiously enter the house...');
-                    return inquirer.prompt(firstNorthHouse).then(firstNHanswers => {
+                    return inquirer
+                    .prompt(firstNorthHouse)
+                    .then(firstNHanswers => {
                         switch (firstNHanswers.firstHouseChoices) {
                             case 'Up':
                                 console.log(
                                     `You walk up the steps, holding your ${playerState.weapon}, nearly falling through a broken step. You see a shadowy figure.`
                                 );
-                                return inquirer.prompt(firstNorthHouseUp)
-                                .then(firstNorthUpAnswers => {
+                                return inquirer
+                                    .prompt(firstNorthHouseUp)
+                                    .then(firstNorthUpAnswers => {
                                         const responses = {
                                             Attack: {
                                                 Pistol: `You release the first bullet in the chamber of your ${playerState.weapon}. The shot echoes throughout the house, calling the residents to your location. You hesitate due to fear. Your first horde, and your last. GAME OVER`,
@@ -91,7 +33,7 @@ function handleDirectionChoice(playerState, directionChoice) {
                                                 'Frying pan': `Luckily enough the zombie didn't notice at first but with your ${playerState.weapon}, you were able to serve up some smooth home cooking.`,
                                                 'Baseball bat': `Dun dun dun dun, do da do. You swing with your ${playerState.weapon}. Who knew you'd be able to hit a homerun during the apocalypse.`,
                                             },
-                                            default: 'Guess you have no real survival instincts, you nearly fell through a broken stair. Why would you run down them? GAME OVER!',
+                                            default: chalk.red.bold('Guess you have no real survival instincts, you nearly fell through a broken stair. Why would you run down them? GAME OVER!!!')
                                         };
                                     
                                         const action = firstNorthUpAnswers.firstNorthUp;
@@ -116,8 +58,10 @@ function handleDirectionChoice(playerState, directionChoice) {
                     });
                 } else if (northAnswers.enterFirstHouse === 'No') {
                     console.log('You decide to turn back.');
-                    return inquirer.prompt([directionPrompt]).then(newDirectionChoice => {
-                        return handleDirectionChoice(playerState, newDirectionChoice);
+                    return inquirer
+                        .prompt([directionPrompt])
+                        .then(newDirectionChoice => {
+                            return handleDirectionChoice(playerState, newDirectionChoice);
                     });
                 } else {
                     console.log('Invalid Choice')
