@@ -40,6 +40,9 @@ function handleDirectionChoice(playerState, directionChoice) {
                                         const weapon = playerState.weapon;
                                     
                                         console.log(responses[action]?.[weapon] || responses.default);
+                                        if (!responses[action]) {
+                                            process.exit(0); 
+                                        }
                                         return inquirer
                                             .prompt(firstNorthUpstairs)
                                             .then(firstNorthUpstairsAnswers => {
