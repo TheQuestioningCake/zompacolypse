@@ -4,6 +4,7 @@ import chalk from 'chalk';
 import {adventure, directionPrompt} from './utils/adventure.js'
 import {firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs} from './utils/first-north-scenarios.js';
 import playerState from './utils/player-state.js';
+import medkit from './utils/inventory.js'
 
 
 function handleDirectionChoice(playerState, directionChoice) {
@@ -49,6 +50,33 @@ function handleDirectionChoice(playerState, directionChoice) {
                                                 switch(firstNorthUpstairsAnswers.firstNorthUpstairs) {
                                                     case 'First bedroom':
                                                         console.log(chalk.red.bold('Really? You chose this room? We told you there was a part of the roof crashing through it. As you walk into the room you crash through the floor into the living room. Disturbing the family, they maw you to death. GAME OVER!!!'))
+                                                        process.exit(0);
+                                                        break;
+                                                    case 'Second bedroom':
+                                                        console.log(`Still shaken by your first encounter with your first zombie, you hestitantly walk into the second room gripping your ${playerState.weapon}. As you walk in you spot a medkit. Do you take it?`)
+                                                        return inquirer
+                                                        .prompt(medkit)
+                                                        .then(medkitAnswers => {
+                                                            if (medkitAnswers.medkit === 'Yes') {
+                                                                console.log(`You take the medkit, it'll come in handy later. If you make it`)
+                                                                playerState.inventory.push('medkit')
+                                                                console.log(`Current inventory: ${playerState.inventory}`)                         
+                                                            } else {
+                                                                console.log(chalk.yellow(`You sure about that? Just because you survived your first encounter doesn't mean you'll survive the next`))
+                                                                return inquirer
+                                                                .prompt(medkit)
+                                                                .then(medkitAnswer2 => {
+                                                                    if (medkitAnswer2.medkit === 'Yes') {
+                                                                        console.log('See, maybe you do have some survival instinct. Just needed to be warned.')
+                                                                        playerState.inventory.push('medkit')
+                                                                        console.log(`Current inventory: ${playerState.inventory}`)
+                                                                    } else {
+                                                                        console.log(chalk.red.bold(`Alright, it's your funeral`))
+                                                                    }
+                                                                })
+
+                                                            }
+                                                        })
                                                 }
                                             })
                                     });
