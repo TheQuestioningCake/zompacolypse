@@ -37,4 +37,14 @@ const firstNorthUpstairs = [
     }
 ]
 
-export { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs}
+const upstairsTurnBack = [
+    {
+        type: 'list',
+        name: 'upstairsTurnBack',
+        message: 'As you leave the first floor, you go carefully go back down the stairs avoiding the broken step, before you lies the door, to your left lies the living room, and to your right the kitchen. Which way do you go?',
+        choices: ['Exit, Left, Right']
+    }
+]
+
+
+export { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack}
