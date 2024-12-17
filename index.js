@@ -9,8 +9,8 @@ inquirer
     .prompt(adventure.slice(0, 1))
     .then(answers => {
         playerState.name = answers['player-name'];
-        console.log(chalk.red.bold(ascii))
         console.log(chalk.red(zombieAscii))
+        console.log(chalk.red.bold(ascii))
         console.log(`Welcome, to your death ${playerState.name}.`);
         return inquirer.prompt(adventure.slice(1, 2));
     })

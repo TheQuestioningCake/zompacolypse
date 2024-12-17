@@ -42,7 +42,7 @@ export function handleHouseChoice() {
 }
 
 export function handleUpstairsChoice() {
-    console.log('You walk up the steps...');
+    console.log(`You walk up the steps gripping your ${playerState.weapon}...`);
     return inquirer
         .prompt(firstNorthHouseUp)
         .then(firstNorthUpAnswers => {
