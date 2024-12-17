@@ -4,6 +4,7 @@ import { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, ups
 import { directionPrompt } from './adventure.js';
 import playerState from './player-state.js';
 import medkit from './inventory.js';
+import { firstZombieAscii } from './ascii.js';
 
 export function handleNorthChoice() {
     console.log('You spot a house in the distance...');
@@ -43,6 +44,7 @@ export function handleHouseChoice() {
 
 export function handleUpstairsChoice() {
     console.log(`You walk up the steps gripping your ${playerState.weapon}...`);
+    console.log(firstZombieAscii)
     return inquirer
         .prompt(firstNorthHouseUp)
         .then(firstNorthUpAnswers => {

@@ -3,13 +3,13 @@ import chalk from 'chalk';
 import playerState from './utils/player-state.js';
 import { adventure, directionPrompt } from './utils/adventure.js';
 import { handleDirectionChoice } from './utils/handle-direction.js';
-import {ascii, zombieAscii} from './utils/ascii.js'
+import {ascii, titleZombieAscii} from './utils/ascii.js'
 
 inquirer
     .prompt(adventure.slice(0, 1))
     .then(answers => {
         playerState.name = answers['player-name'];
-        console.log(chalk.red(zombieAscii))
+        console.log(titleZombieAscii)
         console.log(chalk.red.bold(ascii))
         console.log(`Welcome, to your death ${playerState.name}.`);
         return inquirer.prompt(adventure.slice(1, 2));
