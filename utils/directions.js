@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack } from './first-north-scenarios.js';
+import { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack, firstNorthKitchen, firstShotgun } from './first-north-scenarios.js';
 import { directionPrompt } from './adventure.js';
 import playerState from './player-state.js';
 import medkit from './inventory.js';
@@ -31,7 +31,7 @@ export function handleNorthChoice() {
                 case 'Up':
                     return handleUpstairsChoice();
                 case 'Right':
-                    console.log(`You enter the kitchen, gripping your ${playerState.weapon} as rats scatter.`);
+                    return kitchen()
                     break;
                 case 'Left':
                     console.log(chalk.red('In the living room, the family rises and overwhelms you. GAME OVER.'));
@@ -101,27 +101,59 @@ export function handleUpstairsChoice2 () {
             })
 }
 
-export function Kitchen() {
+export function kitchen() {
+    return inquirer
+        .prompt(firstNorthKitchen)
+        .then(kitchenAnswers => {
+            switch(kitchenAnswers.firstNorthKitchen) {
+                case 'Yes':
+                    console.log(`Who knew you'd be so lucky to find such a coveted weapon this early.`);
+                    playerState.inventory.push('Shotgun');
+                    console.log(`Current inventory: ${playerState.inventory.join(', ')}`);
 
+                    return inquirer
+                        .prompt(firstShotgun)
+                        .then(firstShotgunAnswer => {
+                            switch(firstShotgunAnswer.firstShotgun) {
+                                case 'Yes':
+                                    const originalWeapon = playerState.weapon;
+                                    playerState.weapon = 'Shotgun';
+                                    console.log(`Dropping your ${originalWeapon}, you now brandish a ${playerState.weapon}`);
+                                    break;
+                                default:
+                                    console.log("You decided not to take the shotgun.");
+                                    break;
+                            }
+                        });
+
+                default:
+                    console.log("You decided not to enter the kitchen.");
+                    break;
+            }
+        });
 }
 
+
+
 export function handleMedkitChoice() {
-    return inquirer.prompt(medkit).then(medkitAnswers => {
-        if (medkitAnswers.medkit === 'Yes') {
-            console.log(`You take the medkit, it'll come in handy later. If you make it`);
-            playerState.inventory.push('medkit');
-            console.log(`Current inventory: ${playerState.inventory.join(', ')}`);
-        } else {
-            console.log(chalk.yellow(`You sure about that? Just because you survived your first encounter doesn't mean you'll survive the next`));
-            return inquirer.prompt(medkit).then(medkitAnswer2 => {
-                if (medkitAnswer2.medkit === 'Yes') {
-                    console.log('See, maybe you do have some survival instinct. Just needed to be warned.');
+    return inquirer
+            .prompt(medkit)
+            .then(medkitAnswers => {
+                if (medkitAnswers.medkit === 'Yes') {
+                    console.log(`You take the medkit, it'll come in handy later. If you make it`);
                     playerState.inventory.push('medkit');
                     console.log(`Current inventory: ${playerState.inventory.join(', ')}`);
                 } else {
-                    console.log(chalk.red.bold(`Alright, it's your funeral`));
+                    console.log(chalk.yellow(`You sure about that? Just because you survived your first encounter doesn't mean you'll survive the next`));
+                    return inquirer.prompt(medkit).then(medkitAnswer2 => {
+                        if (medkitAnswer2.medkit === 'Yes') {
+                            console.log('See, maybe you do have some survival instinct. Just needed to be warned.');
+                            playerState.inventory.push('medkit');
+                            console.log(`Current inventory: ${playerState.inventory.join(', ')}`);
+                        } else {
+                            console.log(chalk.red.bold(`Alright, it's your funeral`));
+                        }
+                    });
                 }
             });
-        }
-    });
 }

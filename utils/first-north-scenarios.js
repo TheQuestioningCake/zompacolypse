@@ -49,11 +49,20 @@ const upstairsTurnBack = [
 const firstNorthKitchen = [
     {
         type: 'list',
-        name: 'kitchen',
-        message: '',
-        choices: []
+        name: 'firstNorthKitchen',
+        message: `After the flurry of rats has dispersed you see a shotgun. Its eerie sight, makes you wonder if it was meant for the family in the livingroom. Do you take it?`,
+        choices: ['Yes', 'No']
+    }
+]
+
+const firstShotgun = [
+    {
+        type: 'list',
+        name: 'firstShotgun',
+        message: 'Do you want to equip it?',
+        choices: ['Yes', 'No']
     }
 ]
 
 
-export { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack}
+export { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack, firstNorthKitchen, firstShotgun}
