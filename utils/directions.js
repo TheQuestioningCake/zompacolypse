@@ -75,6 +75,7 @@ export function handleUpstairsChoice() {
                             process.exit(0);
                             break;
                         case 'Second bedroom':
+                            console.log('You walk into a rundown bedroom with a red medkit')
                             return handleMedkitChoice();
                     }
                 })
@@ -98,6 +99,10 @@ export function handleUpstairsChoice2 () {
                         console.log(`Grippping your ${playerState.weapon}, you cautiously walk into the kitchen. As you enter rats scatter in every direction.`)
                 }
             })
+}
+
+export function Kitchen() {
+
 }
 
 export function handleMedkitChoice() {
