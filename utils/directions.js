@@ -23,7 +23,7 @@ export function handleNorthChoice() {
         });
 }
 
-export function handleHouseChoice() {
+ export function handleHouseChoice() {
     return inquirer
         .prompt(firstNorthHouse)
         .then(firstNHanswers => {
@@ -34,7 +34,7 @@ export function handleHouseChoice() {
                     console.log(`You enter the kitchen, gripping your ${playerState.weapon} as rats scatter.`);
                     break;
                 case 'Left':
-                    console.log('In the living room, the family rises and overwhelms you. GAME OVER.');
+                    console.log(chalk.red('In the living room, the family rises and overwhelms you. GAME OVER.'));
                     break;
                 default:
                     console.log('Invalid choice.');
