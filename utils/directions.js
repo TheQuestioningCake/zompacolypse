@@ -77,21 +77,46 @@ export function handleUpstairsChoice() {
                         case 'Second bedroom':
                             return handleMedkitChoice();
                     }
-                });
+                })
+                .then(handleUpstairsChoice2)
         });
 }
 
-export function handleMedkitChoice() {
-    console.log('You spot a medkit. Do you take it?');
+export function handleUpstairsChoice2 () {
     return inquirer
-        .prompt(medkit)
-        .then(medkitAnswers => {
-            if (medkitAnswers.medkit === 'Yes') {
-                console.log('You take the medkit. It might be useful later.');
-                playerState.inventory.push('medkit');
-            } else {
-                console.log(chalk.yellow('You might regret not taking it.'));
-            }
-            console.log(`Current inventory: ${playerState.inventory}`);
-        });
+            .prompt(upstairsTurnBack)
+            .then(upstairsTurnBackAnswers => {
+                switch(upstairsTurnBackAnswers.upstairsTurnBack) {
+                    case 'Exit':
+                        console.log('You leave the house')
+                        break;
+                    case 'Left':
+                        console.log(chalk.red('Unfortunately your curiousity has led you a stray, the family rises from their slumber and maul you. GAME OVER'))
+                        process.exit(0)
+                        break;
+                    case 'Right':
+                        console.log(`Grippping your ${playerState.weapon}, you cautiously walk into the kitchen. As you enter rats scatter in every direction.`)
+                }
+            })
+}
+
+export function handleMedkitChoice() {
+    return inquirer.prompt(medkit).then(medkitAnswers => {
+        if (medkitAnswers.medkit === 'Yes') {
+            console.log(`You take the medkit, it'll come in handy later. If you make it`);
+            playerState.inventory.push('medkit');
+            console.log(`Current inventory: ${playerState.inventory.join(', ')}`);
+        } else {
+            console.log(chalk.yellow(`You sure about that? Just because you survived your first encounter doesn't mean you'll survive the next`));
+            return inquirer.prompt(medkit).then(medkitAnswer2 => {
+                if (medkitAnswer2.medkit === 'Yes') {
+                    console.log('See, maybe you do have some survival instinct. Just needed to be warned.');
+                    playerState.inventory.push('medkit');
+                    console.log(`Current inventory: ${playerState.inventory.join(', ')}`);
+                } else {
+                    console.log(chalk.red.bold(`Alright, it's your funeral`));
+                }
+            });
+        }
+    });
 }
