@@ -41,7 +41,7 @@ const upstairsTurnBack = [
     {
         type: 'list',
         name: 'upstairsTurnBack',
-        message: 'As you leave the first floor, you carefully go back down the stairs avoiding the broken step, before you lies the door, to your left lies the living room, and to your right the kitchen. Which way do you go?',
+        message: 'As you leave the first floor, you carefully go back down the stairs avoiding the broken step, before you lies the door, to your right lies the living room, and to your left the kitchen. Which way do you go?',
         choices: ['Exit', 'Left', 'Right']
     }
 ]
@@ -64,5 +64,13 @@ const firstShotgun = [
     }
 ]
 
+const exitFirstKitchen = [
+    {
+        type: 'list',
+        name: 'exitFirstKitchen',
+        message: `With your ${playerState.weapon} to your chest, you peak out and in front of you lies the livingroom, and to your left the stairs. What do you do?`,
+        choices: ['Stairs', 'Livingroom']
+    }
+]
 
-export { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack, firstNorthKitchen, firstShotgun}
+export { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack, firstNorthKitchen, firstShotgun, exitFirstKitchen}

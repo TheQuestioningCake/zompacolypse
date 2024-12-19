@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack, firstNorthKitchen, firstShotgun } from './first-north-scenarios.js';
+import { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack, firstNorthKitchen, firstShotgun, exitFirstKitchen } from './first-north-scenarios.js';
 import { directionPrompt } from './adventure.js';
 import playerState from './player-state.js';
 import medkit from './inventory.js';
@@ -30,10 +30,10 @@ export function handleNorthChoice() {
             switch (firstNHanswers.firstHouseChoices) {
                 case 'Up':
                     return handleUpstairsChoice();
-                case 'Right':
+                case 'Left':
                     return kitchen()
                     break;
-                case 'Left':
+                case 'Right':
                     console.log(chalk.red('In the living room, the family rises and overwhelms you. GAME OVER.'));
                     break;
                 default:
@@ -54,6 +54,7 @@ export function handleUpstairsChoice() {
                     Knife: 'You rush in with your knife, quickly dealing with the threat.',
                     FryingPan: 'You catch the zombie off-guard and smack them with your frying pan.',
                     BaseballBat: 'You swing your bat and hit a home run.',
+                    Shotgun: `You blast the zombie with your shotgun, you hear a blood curdling scream from behind you. Luckily enough your reflexes were fast to one tap the entire family that lying in the livingroom`
                 },
                 default: 'You hesitate and fall into a trap. GAME OVER.',
             };
@@ -96,7 +97,7 @@ export function handleUpstairsChoice2 () {
                         process.exit(0)
                         break;
                     case 'Right':
-                        console.log(`Grippping your ${playerState.weapon}, you cautiously walk into the kitchen. As you enter rats scatter in every direction.`)
+                        return kitchen()
                 }
             })
 }
@@ -130,7 +131,23 @@ export function kitchen() {
                     console.log("You decided not to enter the kitchen.");
                     break;
             }
-        });
+        })
+        .then(exitKitchen)
+}
+
+export function exitKitchen () {
+    return inquirer
+            .prompt(exitFirstKitchen)
+            .then(exitFirstKitchenAnswer => {
+                if (exitFirstKitchenAnswer.exitFirstKitchen === 'Livingroom' && playerState.weapon === 'Shotgun') {
+                    console.log(`With your ${playerState.weapon} at your hip, you peak into the livingroom. The family now restless slowly rises, but you're quicker. You manage to double tap the family back to sleep. You hear a roar come from the stairs and blow the zombie upstairs head off`)
+                } else if (exitFirstKitchenAnswer.exitFirstKitchen === 'Livingroom') {
+                    console.log(chalk.red('Unfortunately your curiousity has led you a stray, the family rises from their slumber and maul you. GAME OVER'))
+                    process.exit(0)
+                } else {
+                    return handleUpstairsChoice()
+                }
+            })
 }
 
 
