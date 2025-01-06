@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack, firstNorthKitchen, firstShotgun, exitFirstKitchen } from './first-north-scenarios.js';
 import { directionPrompt } from './adventure.js';
 import playerState from './player-state.js';
+import { checkVisited } from './helper.js';
 import medkit from './inventory.js';
 import { firstZombieAscii } from './ascii.js';
 
@@ -29,7 +30,9 @@ export function handleNorthChoice() {
         .then(firstNHanswers => {
             switch (firstNHanswers.firstHouseChoices) {
                 case 'Up':
+                    if(checkVisited('house1' , 'hasVisitedUpstairs')) return handleHouseChoice();
                     return handleUpstairsChoice();
+                    break;
                 case 'Left':
                     return kitchen()
                     break;
