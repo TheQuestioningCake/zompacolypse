@@ -59,7 +59,7 @@ export function handleUpstairsChoice() {
                     BaseballBat: 'You swing your bat and hit a home run.',
                     Shotgun: `You blast the zombie with your shotgun, you hear a blood curdling scream from behind you. Luckily enough your reflexes were fast to one tap the entire family that lying in the livingroom`
                 },
-                default: 'You hesitate and fall into a trap. GAME OVER.',
+                default: chalk.red( 'You hesitate and fall into a trap. GAME OVER.'),
             };
             const action = firstNorthUpAnswers.firstNorthUp;
             const weapon = playerState.weapon
@@ -148,6 +148,7 @@ export function exitKitchen () {
                     console.log(chalk.red('Unfortunately your curiousity has led you a stray, the family rises from their slumber and maul you. GAME OVER'))
                     process.exit(0)
                 } else {
+                    if(checkVisited('house1' , 'hasVisitedUpstairs')) return handleHouseChoice();
                     return handleUpstairsChoice()
                 }
             })
