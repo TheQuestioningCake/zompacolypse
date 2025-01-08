@@ -14,7 +14,7 @@ const firstNorthHouse = [
         type: 'list',
         name: 'firstHouseChoices',
         message:
-            "There's a rotten smell in the air. You see a decrpyted set of stairs, a rundown kitchen, and a living room with what appears to be the remains of the family living there. Where do you go?",
+            "There's a rotten smell in the air. You see a decrpyted set of stairs, to the left a rundown kitchen, and a living room with what appears to be the remains of the family living there to your left. Where do you go?",
         choices: ['Up', 'Right', 'Left'],
     },
 ];

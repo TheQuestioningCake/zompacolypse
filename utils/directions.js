@@ -34,9 +34,11 @@ export function handleNorthChoice() {
                     return handleUpstairsChoice();
                     break;
                 case 'Left':
+                    if(checkVisited('house1', 'hasVisitedKitchen')) return handleHouseChoice();
                     return kitchen()
                     break;
                 case 'Right':
+                    if(checkVisited('house1', 'hasVisitedLivingroom')) return handleHouseChoice();
                     console.log(chalk.red('In the living room, the family rises and overwhelms you. GAME OVER.'));
                     break;
                 default:
@@ -142,13 +144,15 @@ export function exitKitchen () {
     return inquirer
             .prompt(exitFirstKitchen)
             .then(exitFirstKitchenAnswer => {
-                if (exitFirstKitchenAnswer.exitFirstKitchen === 'Livingroom' && playerState.weapon === 'Shotgun') {
+                if (exitFirstKitchenAnswer.exitFirstKitchen === 'Livingroom' && playerState.weapon === 'Shotgun' && checkVisited('house1', 'hasVisitedUpstairs')) {
+                    console.log(`With your ${playerState.weapon} at your hip, you peak into the livingroom. The family now restless slowly rises, but you're quicker. You manage to double tap the family back to sleep.`)
+                } else if (exitFirstKitchenAnswer.exitFirstKitchen === 'Livingroom' && playerState.weapon === 'Shotgun'){
                     console.log(`With your ${playerState.weapon} at your hip, you peak into the livingroom. The family now restless slowly rises, but you're quicker. You manage to double tap the family back to sleep. You hear a roar come from the stairs and blow the zombie upstairs head off`)
                 } else if (exitFirstKitchenAnswer.exitFirstKitchen === 'Livingroom') {
                     console.log(chalk.red('Unfortunately your curiousity has led you a stray, the family rises from their slumber and maul you. GAME OVER'))
                     process.exit(0)
                 } else {
-                    if(checkVisited('house1' , 'hasVisitedUpstairs')) return handleHouseChoice();
+                    if(checkVisited('house1' , 'hasVisitedUpstairs')) return exitKitchen();
                     return handleUpstairsChoice()
                 }
             })
