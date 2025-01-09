@@ -1,6 +1,6 @@
 import playerState from "./player-state.js";
 
-const firstNorth = [
+export const firstNorth = [
     {
         type: 'list',
         name: 'enterFirstHouse',
@@ -9,17 +9,17 @@ const firstNorth = [
     },
 ];
 
-const firstNorthHouse = [
+export const firstNorthHouse = [
     {
         type: 'list',
         name: 'firstHouseChoices',
         message:
-            "There's a rotten smell in the air. You see a decrpyted set of stairs, to the left a rundown kitchen, and a living room with what appears to be the remains of the family living there to your left. Where do you go?",
+            "There's a rotten smell in the air. You see a decrpyted set of stairs, to the left a rundown kitchen, and a living room with what appears to be the remains of the family living there to your right. Where do you go?",
         choices: ['Up', 'Right', 'Left'],
     },
 ];
 
-const firstNorthHouseUp= [
+export const firstNorthHouseUp= [
     {
         type: 'list',
         name: 'firstNorthUp',
@@ -28,7 +28,7 @@ const firstNorthHouseUp= [
     }
 ];
 
-const firstNorthUpstairs = [
+export const firstNorthUpstairs = [
     {
         type: 'list',
         name: 'firstNorthUpstairs',
@@ -37,7 +37,7 @@ const firstNorthUpstairs = [
     }
 ]
 
-const upstairsTurnBack = [
+export const upstairsTurnBack = [
     {
         type: 'list',
         name: 'upstairsTurnBack',
@@ -46,7 +46,7 @@ const upstairsTurnBack = [
     }
 ]
 
-const firstNorthKitchen = [
+export const firstNorthKitchen = [
     {
         type: 'list',
         name: 'firstNorthKitchen',
@@ -55,7 +55,7 @@ const firstNorthKitchen = [
     }
 ]
 
-const firstShotgun = [
+export const firstShotgun = [
     {
         type: 'list',
         name: 'firstShotgun',
@@ -64,7 +64,7 @@ const firstShotgun = [
     }
 ]
 
-const exitFirstKitchen = [
+export const exitFirstKitchen = [
     {
         type: 'list',
         name: 'exitFirstKitchen',
@@ -73,4 +73,21 @@ const exitFirstKitchen = [
     }
 ]
 
-export { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack, firstNorthKitchen, firstShotgun, exitFirstKitchen}
+export const firstNorthLivingroom = [
+    {
+        type: 'list',
+        name: 'firstNorthLivingroom',
+        message:`After putting the family back to rest with your ${playerState.weapon} your hands shake as your body quivers. Reality has finally sunk in. It's the apocalypse... You look around the livingroom and spot a medkit. Do you take it? `,
+        choices: ['Yes', 'No']
+    }
+]
+
+export const exitFirstNorthLivingroom = [
+    {
+        type: 'list',
+        name: 'exitFirstNorthLivingroom',
+        message: 'After collecting yourself and coming to turns with your new reality, you walk out the livingroom ready to take the world on. What do you do?',
+        choices: ['Upstairs', 'Exit']
+    }
+]
+

@@ -1,4 +1,4 @@
-const adventure = [
+export const adventure = [
     {
         type: 'input',
         name: 'player-name',
@@ -24,11 +24,10 @@ const adventure = [
     },
 ];
 
-const directionPrompt = {
+export const directionPrompt = {
     type: 'list',
     name: 'direction',
     message: 'Choose a direction:',
     choices: ['North', 'South', 'East', 'West']
 };
 
-export {adventure, directionPrompt};

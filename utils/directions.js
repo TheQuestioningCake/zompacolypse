@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack, firstNorthKitchen, firstShotgun, exitFirstKitchen } from './first-north-scenarios.js';
+import { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack, firstNorthKitchen, firstShotgun, exitFirstKitchen, firstNorthLivingroom, exitFirstNorthLivingroom } from './first-north-scenarios.js';
 import { directionPrompt } from './adventure.js';
 import playerState from './player-state.js';
 import { checkVisited } from './helper.js';
@@ -49,10 +49,14 @@ export function handleNorthChoice() {
 
 export function handleUpstairsChoice() {
     console.log(`You walk up the steps gripping your ${playerState.weapon}...`);
-    console.log(firstZombieAscii)
+    
     return inquirer
         .prompt(firstNorthHouseUp)
         .then(firstNorthUpAnswers => {
+            if(checkVisited('house1', 'hasVisitedLivingroom')) {
+                console.log(`Luckily you already took out the zombie upstairs with your ${playerState.weapon}, the barrel still smoking from the fight`)
+            }
+            
             const responses = {
                 Attack: {
                     Pistol: chalk.red.bold('You fire a shot and attract a horde. GAME OVER.'),
@@ -66,7 +70,9 @@ export function handleUpstairsChoice() {
             const action = firstNorthUpAnswers.firstNorthUp;
             const weapon = playerState.weapon
             const message = responses[action]?.[weapon] || responses.default
+            console.log(firstZombieAscii)
             console.log(message);
+        
 
             if (message.includes('GAME OVER')) {
                 process.exit(0)
@@ -146,8 +152,10 @@ export function exitKitchen () {
             .then(exitFirstKitchenAnswer => {
                 if (exitFirstKitchenAnswer.exitFirstKitchen === 'Livingroom' && playerState.weapon === 'Shotgun' && checkVisited('house1', 'hasVisitedUpstairs')) {
                     console.log(`With your ${playerState.weapon} at your hip, you peak into the livingroom. The family now restless slowly rises, but you're quicker. You manage to double tap the family back to sleep.`)
+                    return(handleLivingroomChoice())
                 } else if (exitFirstKitchenAnswer.exitFirstKitchen === 'Livingroom' && playerState.weapon === 'Shotgun'){
                     console.log(`With your ${playerState.weapon} at your hip, you peak into the livingroom. The family now restless slowly rises, but you're quicker. You manage to double tap the family back to sleep. You hear a roar come from the stairs and blow the zombie upstairs head off`)
+                    return(handleLivingroomChoice())
                 } else if (exitFirstKitchenAnswer.exitFirstKitchen === 'Livingroom') {
                     console.log(chalk.red('Unfortunately your curiousity has led you a stray, the family rises from their slumber and maul you. GAME OVER'))
                     process.exit(0)
@@ -158,7 +166,28 @@ export function exitKitchen () {
             })
 }
 
+export function handleLivingroomChoice() {
+    return inquirer
+            .prompt(firstNorthLivingroom)
+            .then(firstNorthLivingroomAnswers => {
+                if(firstNorthLivingroomAnswers === 'Yes') {
+                    return handleMedkitChoice2()
+                    .then(handleExitFirstNorthLivingroom())
+                } else {
+                    return(handleExitFirstNorthLivingroom())
+                }
+            })
+}
 
+export function handleExitFirstNorthLivingroom() {
+    return inquirer
+            .prompt(exitFirstNorthLivingroom)
+            .then(exitFirstNorthLivingroomAnswers => {
+                if(exitFirstNorthLivingroomAnswers.exitFirstNorthLivingroom === 'Upstairs') {
+                    return handleUpstairsChoice()
+                } else {console.log(`With your ${playerState.weapon} you leave the house and venture of into the apocalypse`)}
+            })
+}
 
 export function handleMedkitChoice() {
     return inquirer
@@ -170,6 +199,29 @@ export function handleMedkitChoice() {
                     console.log(`Current inventory: ${playerState.inventory.join(', ')}`);
                 } else {
                     console.log(chalk.yellow(`You sure about that? Just because you survived your first encounter doesn't mean you'll survive the next`));
+                    return inquirer.prompt(medkit).then(medkitAnswer2 => {
+                        if (medkitAnswer2.medkit === 'Yes') {
+                            console.log('See, maybe you do have some survival instinct. Just needed to be warned.');
+                            playerState.inventory.push('medkit');
+                            console.log(`Current inventory: ${playerState.inventory.join(', ')}`);
+                        } else {
+                            console.log(chalk.red.bold(`Alright, it's your funeral`));
+                        }
+                    });
+                }
+            });
+}
+
+export function handleMedkitChoice2() {
+    return inquirer
+            .prompt(medkit)
+            .then(medkitAnswers => {
+                if (medkitAnswers.medkit === 'Yes') {
+                    console.log(`You take the medkit, it'll come in handy later. If you make it`);
+                    playerState.inventory.push('medkit');
+                    console.log(`Current inventory: ${playerState.inventory.join(', ')}`);
+                } else {
+                    console.log(chalk.yellow(`You sure about that? Just because you have a ${playerState.weapon} doesn't mean you'll survive your next encounter`));
                     return inquirer.prompt(medkit).then(medkitAnswer2 => {
                         if (medkitAnswer2.medkit === 'Yes') {
                             console.log('See, maybe you do have some survival instinct. Just needed to be warned.');
