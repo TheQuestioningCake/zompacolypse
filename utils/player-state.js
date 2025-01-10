@@ -7,8 +7,8 @@ const playerState = {
         house1: {
             hasEntered: false,
             hasVisitedUpstairs: false,
-            hasVistedKitchen: false,
-            hasVistedLivingroom: false
+            hasVisitedKitchen: false,
+            hasVisitedLivingroom: false
         }
     },
 };
