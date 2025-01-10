@@ -1,4 +1,4 @@
-import { handleNorthChoice } from './directions.js';
+import { handleNorthChoice } from './first-north-direction.js';
 
 export function handleDirectionChoice(playerState, directionChoice) {
     switch (directionChoice.direction) {

@@ -73,15 +73,6 @@ export const exitFirstKitchen = [
     }
 ]
 
-export const firstNorthLivingroom = [
-    {
-        type: 'list',
-        name: 'firstNorthLivingroom',
-        message:`After putting the family back to rest with your ${playerState.weapon} your hands shake as your body quivers. Reality has finally sunk in. It's the apocalypse... You look around the livingroom and spot a medkit. Do you take it? `,
-        choices: ['Yes', 'No']
-    }
-]
-
 export const exitFirstNorthLivingroom = [
     {
         type: 'list',

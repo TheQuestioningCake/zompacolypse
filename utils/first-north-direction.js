@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack, firstNorthKitchen, firstShotgun, exitFirstKitchen, firstNorthLivingroom, exitFirstNorthLivingroom } from './first-north-scenarios.js';
+import { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack, firstNorthKitchen, firstShotgun, exitFirstKitchen, exitFirstNorthLivingroom } from './first-north-scenarios.js';
 import { directionPrompt } from './adventure.js';
 import playerState from './player-state.js';
 import { checkVisited } from './helper.js';
@@ -180,16 +180,9 @@ export function exitKitchen() {
 }
 
 export function handleLivingroomChoice() {
-    return inquirer
-        .prompt(firstNorthLivingroom)
-        .then(firstNorthLivingroomAnswers => {
-            if (firstNorthLivingroomAnswers.firstNorthLivingroom === 'Yes') {
-                return handleMedkitChoice2()
-                    .then(handleExitFirstNorthLivingroom)
-            } else {
-                return handleExitFirstNorthLivingroom()
-            }
-        })
+    console.log(`After putting the family back to rest with your ${playerState.weapon} your hands shake as your body quivers. Reality has finally sunk in. It's the apocalypse... You look around the livingroom and spot a medkit.`)
+    return handleMedkitChoice2()
+    .then(handleExitFirstNorthLivingroom)
 }
 
 export function handleExitFirstNorthLivingroom() {
