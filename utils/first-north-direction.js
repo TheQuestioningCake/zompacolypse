@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack, firstNorthKitchen, firstShotgun, exitFirstKitchen, exitFirstNorthLivingroom } from './first-north-scenarios.js';
 import { directionPrompt } from './adventure.js';
 import playerState from './player-state.js';
-import { checkVisited } from './helper.js';
+import { checkVisited, appliedDamage } from './helper.js';
 import medkit from './inventory.js';
 import { firstZombieAscii } from './ascii.js';
 
@@ -74,15 +74,22 @@ export function handleUpstairsChoice() {
                     Attack: {
                         Pistol: chalk.red.bold('You fire a shot and attract a horde. GAME OVER.'),
                         Knife: 'You rush in with your knife, quickly dealing with the threat.',
-                        FryingPan: 'You catch the zombie off-guard and smack them with your frying pan.',
-                        BaseballBat: 'You swing your bat and hit a home run.',
-                        Shotgun: `You blast the zombie with your shotgun, you hear a blood curdling scream from behind you. Luckily enough your reflexes were fast to one tap the entire family that lying in the livingroom`
+                        'Frying pan': () => {
+                            appliedDamage(1)
+                            return'You catch the zombie off-guard and smack them with your frying pan.'
+                        },
+                        'Baseball bat': () => {
+                            appliedDamage(1)
+                             return 'You swing your bat and hit a home run.'
+                        },
+                        Shotgun:`You blast the zombie with your shotgun, you hear a blood curdling scream from behind you. Luckily enough your reflexes were fast to one tap the entire family that lying in the livingroom`
                     },
                     default: chalk.red('You hesitate and fall into a trap. GAME OVER.'),
                 };
                 const action = firstNorthUpAnswers.firstNorthUp;
                 const weapon = playerState.weapon
-                const message = responses[action]?.[weapon] || responses.default
+                const response = responses[action]?.[weapon] || responses.default
+                const message = typeof response === 'function' ? response() : response;
                 console.log(message);
 
 
