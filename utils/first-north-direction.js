@@ -3,8 +3,8 @@ import chalk from 'chalk';
 import { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack, firstNorthKitchen, firstShotgun, exitFirstKitchen, exitFirstNorthLivingroom } from './first-north-scenarios.js';
 import { directionPrompt } from './adventure.js';
 import playerState from './player-state.js';
-import { checkVisited, appliedDamage } from './helper.js';
-import medkit from './inventory.js';
+import { checkVisited, appliedDamage, appliedHealing } from './helper.js';
+import {medkit} from './inventory.js';
 import { firstZombieAscii } from './ascii.js';
 
 export function handleNorthChoice() {
@@ -171,7 +171,14 @@ export function exitKitchen() {
         .then(exitFirstKitchenAnswer => {
             if (exitFirstKitchenAnswer.exitFirstKitchen === 'Livingroom' && playerState.weapon === 'Shotgun' && checkVisited('house1', 'hasVisitedUpstairs')) {
                 console.log(`With your ${playerState.weapon} at your hip, you peak into the livingroom. The family now restless slowly rises, but you're quicker. You manage to double tap the family back to sleep.`)
-                return (handleLivingroomChoice())
+                .then(() => {
+                    appliedDamage(1)})
+                .then(()=> {
+                    handleLivingroomChoice()
+                })
+                .catch(error => {
+                    console.error('There was an error', error)
+                })
             } else if (exitFirstKitchenAnswer.exitFirstKitchen === 'Livingroom' && playerState.weapon === 'Shotgun') {
                 checkVisited('house1', 'hasVisitedLivingroom')
                 console.log(`With your ${playerState.weapon} at your hip, you peak into the livingroom. The family now restless slowly rises, but you're quicker. You manage to double tap the family back to sleep. You hear a roar come from the stairs and blow the zombie upstairs head off`)
@@ -187,9 +194,18 @@ export function exitKitchen() {
 }
 
 export function handleLivingroomChoice() {
+    appliedDamage();
     console.log(`After putting the family back to rest with your ${playerState.weapon} your hands shake as your body quivers. Reality has finally sunk in. It's the apocalypse... You look around the livingroom and spot a medkit.`)
     return handleMedkitChoice2()
-    .then(handleExitFirstNorthLivingroom)
+    .then(() => {
+        return appliedHealing()
+    })
+    .then(() => {
+        handleExitFirstNorthLivingroom()
+    })
+    .catch(error => {
+        console.error('There was an error', error)
+    })
 }
 
 export function handleExitFirstNorthLivingroom() {

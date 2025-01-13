@@ -1,5 +1,7 @@
 import playerState from "./player-state.js";
 import chalk from 'chalk'
+import inquirer from "inquirer";
+import {useMedkit} from './inventory.js'
 
 export function checkVisited(location, area) {
     if (!playerState.visitedLocations[location]) {
@@ -28,4 +30,36 @@ export function appliedDamage(playerDamage) {
 
     }
     
+}
+
+export function appliedHealing() {
+    if (playerState.inventory.includes('medkit')) {
+        return inquirer
+            .prompt(useMedkit)
+            .then(useMedkitAnswers => {
+                if (useMedkitAnswers.useMedkit === 'Yes') {
+                    const healingValues = [2, 3, 5];
+                    const randomIndex = Math.floor(Math.random() * healingValues.length);
+                    const healing = healingValues[randomIndex];
+                    const maxHealth = 100; 
+                    playerState.health = Math.min(playerState.health + healing, maxHealth);
+
+                    const medkitIndex = playerState.inventory.indexOf('medkit');
+                    if (medkitIndex > -1) {
+                        playerState.inventory.splice(medkitIndex, 1);
+                    }
+
+                    console.log(
+                        `You healed for ${healing} pts of health. Your current health is ${playerState.health}.`
+                    );
+
+                    console.log(`Remaining inventory: ${playerState.inventory.join(', ')}`);
+
+                } else {
+                    console.log('You decided not to use the medkit right now.');
+                }
+            });
+    } else {
+        console.log('You do not have a medkit to use.');
+    }
 }
