@@ -1,7 +1,7 @@
 import playerState from "./player-state.js";
 import chalk from 'chalk'
 import inquirer from "inquirer";
-import {useMedkit} from './inventory.js'
+import { useMedkit } from './inventory.js'
 
 export function checkVisited(location, area) {
     if (!playerState.visitedLocations[location]) {
@@ -15,21 +15,17 @@ export function checkVisited(location, area) {
     }
 }
 
-export function appliedDamage(playerDamage) {
-    const dmgValues = [1,3,5]
-    for (let dmg = 0; dmg < playerDamage; dmg++) {
-        const randomIndex = Math.floor(Math.random() * dmgValues.length);
-        const damage = dmgValues[randomIndex];
-        playerState.health -= damage;
-        console.log(`You took ${damage}, your current health is ${playerState.health}`)
+export function appliedDamage() {
+    const dmgValues = [1, 3, 5]
+    const randomIndex = Math.floor(Math.random() * dmgValues.length);
+    const damage = dmgValues[randomIndex];
+    playerState.health -= damage;
+    console.log(`You took ${damage}, your current health is ${playerState.health}`)
 
-        if (playerState.health <= 0) {
-            console.log(chalk.red(`GAME OVER!!!!!`))
-            process.exit(0)
-        }
-
+    if (playerState.health <= 0) {
+        console.log(chalk.red(`GAME OVER!!!!!`))
+        process.exit(0)
     }
-    
 }
 
 export function appliedHealing() {
@@ -38,10 +34,10 @@ export function appliedHealing() {
             .prompt(useMedkit)
             .then(useMedkitAnswers => {
                 if (useMedkitAnswers.useMedkit === 'Yes') {
-                    const healingValues = [2, 3, 5];
+                    const healingValues = [2 - 5];
                     const randomIndex = Math.floor(Math.random() * healingValues.length);
                     const healing = healingValues[randomIndex];
-                    const maxHealth = 100; 
+                    const maxHealth = 100;
                     playerState.health = Math.min(playerState.health + healing, maxHealth);
 
                     const medkitIndex = playerState.inventory.indexOf('medkit');
