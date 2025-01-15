@@ -1,11 +1,11 @@
 import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack, firstNorthKitchen, firstShotgun, exitFirstKitchen, exitFirstNorthLivingroom } from './first-north-scenarios.js';
-import { directionPrompt } from './adventure.js';
-import playerState from './player-state.js';
-import { checkVisited, appliedDamage, appliedHealing } from './helper.js';
-import {medkit} from './inventory.js';
-import { firstZombieAscii } from './ascii.js';
+import { directionPrompt } from '../adventure.js';
+import playerState from '../player-state.js';
+import { checkVisited, appliedDamage, appliedHealing } from '../helper.js';
+import {medkit} from '../inventory.js';
+import { firstZombieAscii } from '../ascii.js';
 
 export function handleNorthChoice() {
     console.log('You spot a house in the distance...');
@@ -75,11 +75,11 @@ export function handleUpstairsChoice() {
                         Pistol: chalk.red.bold('You fire a shot and attract a horde. GAME OVER.'),
                         Knife: 'You rush in with your knife, quickly dealing with the threat.',
                         'Frying pan': () => {
-                            appliedDamage(1)
+                            appliedDamage()
                             return'You catch the zombie off-guard and smack them with your frying pan.'
                         },
                         'Baseball bat': () => {
-                            appliedDamage(1)
+                            appliedDamage()
                              return 'You swing your bat and hit a home run.'
                         },
                         Shotgun:`You blast the zombie with your shotgun, you hear a blood curdling scream from behind you. Luckily enough your reflexes were fast to one tap the entire family that lying in the livingroom`
@@ -175,7 +175,7 @@ export function exitKitchen() {
             } else if (exitFirstKitchenAnswer.exitFirstKitchen === 'Livingroom' && playerState.weapon === 'Shotgun') {
                 checkVisited('house1', 'hasVisitedLivingroom')
                 console.log(`With your ${playerState.weapon} at your hip, you peak into the livingroom. The family now restless slowly rises, but you're quicker. You manage to double tap the family back to sleep. You hear a roar come from the stairs and blow the zombie upstairs head off`)
-                appliedDamage(1);
+                appliedDamage();
                 return handleLivingroomChoice()
             } else if (exitFirstKitchenAnswer.exitFirstKitchen === 'Livingroom') {
                 console.log(chalk.red('Unfortunately your curiousity has led you a stray, the family rises from their slumber and maul you. GAME OVER'))
@@ -188,7 +188,6 @@ export function exitKitchen() {
 }
 
 export function handleLivingroomChoice() {
-    appliedDamage();
     console.log(`After putting the family back to rest with your ${playerState.weapon} your hands shake as your body quivers. Reality has finally sunk in. It's the apocalypse... You look around the livingroom and spot a medkit.`)
     return handleMedkitChoice2()
     .then(() => {

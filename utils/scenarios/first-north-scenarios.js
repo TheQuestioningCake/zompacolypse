@@ -1,4 +1,4 @@
-import playerState from "./player-state.js";
+import playerState from "../player-state.js";
 
 export const firstNorth = [
     {
