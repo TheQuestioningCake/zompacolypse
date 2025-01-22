@@ -6,6 +6,8 @@ import playerState from '../player-state.js';
 import { checkVisited, appliedDamage, appliedHealing } from '../helper.js';
 import {medkit} from '../inventory.js';
 import { firstZombieAscii } from '../ascii.js';
+import { handleDirectionChoice } from '../handle-direction.js';
+import { chooseDirection } from '../handle-direction.js';
 
 export function handleNorthChoice() {
     console.log('You spot a house in the distance...');
@@ -17,9 +19,10 @@ export function handleNorthChoice() {
                 return handleHouseChoice();
             } else {
                 console.log('You decide to turn back.');
-                return inquirer.prompt([directionPrompt]).then(newDirectionChoice => {
-                    return handleDirectionChoice(newDirectionChoice);
-                });
+                return chooseDirection();
+                // return inquirer.prompt([directionPrompt]).then(newDirectionChoice => {
+                //     return handleDirectionChoice(newDirectionChoice);
+                // });
             }
         });
 }
