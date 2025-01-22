@@ -12,10 +12,8 @@ export function handleDirectionChoice(playerState, directionChoice) {
     switch (directionChoice.direction) {
         case 'North':
             return handleNorthChoice();
-            break;
         case 'South':
             return handleFirstSouth();
-            break;
         case 'East':
             console.log(`You head East and stumble upon a car crash. Your ${playerState.weapon} is at the ready.`);
             break;

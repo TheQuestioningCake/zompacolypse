@@ -1,12 +1,10 @@
 import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { firstNorth, firstNorthHouse, firstNorthHouseUp, firstNorthUpstairs, upstairsTurnBack, firstNorthKitchen, firstShotgun, exitFirstKitchen, exitFirstNorthLivingroom } from './first-north-scenarios.js';
-import { directionPrompt } from '../adventure.js';
 import playerState from '../player-state.js';
 import { checkVisited, appliedDamage, appliedHealing } from '../helper.js';
 import {medkit} from '../inventory.js';
 import { firstZombieAscii } from '../ascii.js';
-import { handleDirectionChoice } from '../handle-direction.js';
 import { chooseDirection } from '../handle-direction.js';
 
 export function handleNorthChoice() {
@@ -20,9 +18,6 @@ export function handleNorthChoice() {
             } else {
                 console.log('You decide to turn back.');
                 return chooseDirection();
-                // return inquirer.prompt([directionPrompt]).then(newDirectionChoice => {
-                //     return handleDirectionChoice(newDirectionChoice);
-                // });
             }
         });
 }
