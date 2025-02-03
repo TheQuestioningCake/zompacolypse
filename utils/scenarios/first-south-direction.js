@@ -40,7 +40,7 @@ export function handleSouthConversation() {
         .prompt(southConversation)
         .then(southConversationsAnswers => {
             if (southConversationsAnswers.southConversation === 'Yes') {
-                if (checkVisited('house1', 'hasVisitedKitchen' && playerState.weapon === 'Shotgun')) {
+                if (playerState.visitedLocations.house1.hasVisitedKitchen === true  && playerState.weapon === 'Shotgun') {
                     console.log (`The man looks over at your ${playerState.weapon}. "That shotgun!? Where did you get it? That's the shotgun I left in my family's house. Are they still alive? Please tell me they're still alive"`)
                 } else {
                     console.log(`You lay down next to the man, and tell him he's going to be alright. He looks at you with admiration. He begins to calm down and begins to tell you about his family. They live at the house up north, and how he was too shaken by the zombies over taking his home. He could've saved his family but couldn't reach the shotgun in the kitchen.`)

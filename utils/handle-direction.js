@@ -57,3 +57,14 @@ export function chooseDirection(playerState) {
             return handleDirectionChoice(playerState, newDirectionChoice);
         });
 }
+
+export function chooseDirection2(playerState) {
+    return inquirer
+    .prompt([directionPrompt])
+    .then(newDirectionChoice => {
+        
+        console.log("Prompt output:", newDirectionChoice);
+
+        return handleDirectionChoice2(playerState, newDirectionChoice);
+    });
+}

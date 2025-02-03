@@ -5,7 +5,7 @@ import playerState from '../player-state.js';
 import { checkVisited, appliedDamage, appliedHealing } from '../helper.js';
 import {medkit} from '../inventory.js';
 import { firstZombieAscii } from '../ascii.js';
-import { chooseDirection, handleDirectionChoice2} from '../handle-direction.js';
+import { chooseDirection, chooseDirection2} from '../handle-direction.js';
 
 export function handleNorthChoice() {
     console.log('You spot a house in the distance...');
@@ -179,7 +179,7 @@ export function exitKitchen() {
                 console.log(chalk.red('Unfortunately your curiousity has led you a stray, the family rises from their slumber and maul you. GAME OVER'))
                 process.exit(0)
             } else if(exitFirstKitchenAnswer.exitFirstKitchen === 'Exit') {
-                return handleDirectionChoice2()
+                return chooseDirection2()
             } else {
                 if (checkVisited('house1', 'hasVisitedUpstairs')) return exitKitchen();
                 return handleUpstairsChoice()
