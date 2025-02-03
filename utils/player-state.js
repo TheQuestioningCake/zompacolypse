@@ -3,6 +3,7 @@ const playerState = {
     weapon: '',
     health: 100,
     inventory: [],
+    companion:'',
     visitedLocations: {
         house1: {
             hasEntered: false,

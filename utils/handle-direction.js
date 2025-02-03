@@ -25,6 +25,28 @@ export function handleDirectionChoice(playerState, directionChoice) {
     }
 }
 
+export function handleDirectionChoice2(playerState, directionChoice) {
+    if (!directionChoice || !directionChoice.direction) {
+        console.error('Invalid direction choice!');
+        return;
+    }
+
+    switch (directionChoice.direction) {
+        case 'North':
+            console.log(`No direction yet`)
+        case 'South':
+            return handleFirstSouth();
+        case 'East':
+            console.log(`No direction yet`);
+            break;
+        case 'West':
+            console.log(`No direction yet`);
+            break;
+        default:
+            console.log('You need to choose a valid direction.');
+    }
+}
+
 export function chooseDirection(playerState) {
     return inquirer
         .prompt([directionPrompt])

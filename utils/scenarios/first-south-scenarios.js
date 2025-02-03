@@ -17,3 +17,12 @@ export const firstSouthEncounter = [
         choices: ['Yes', 'No']
     }
 ]
+
+export const southConversation = [
+    {
+        type: 'list',
+        name: 'southConversation',
+        message:`The man begins to wimper. "My family... They're gone... I left them... I was so scared... I didn't know what to do I just left them there" Do you console the man?`,
+        choices: ['Yes', 'No']
+    }
+]

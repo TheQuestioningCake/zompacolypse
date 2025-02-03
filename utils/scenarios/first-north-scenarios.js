@@ -69,7 +69,7 @@ export const exitFirstKitchen = [
         type: 'list',
         name: 'exitFirstKitchen',
         message: `With your ${playerState.weapon} to your chest, you peak out and in front of you lies the livingroom, and to your left the stairs. What do you do?`,
-        choices: ['Stairs', 'Livingroom']
+        choices: ['Stairs', 'Livingroom', 'Exit']
     }
 ]
 
