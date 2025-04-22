@@ -1,9 +1,9 @@
-const playerState = {
+export const playerState = {
     name: '',
     weapon: '',
     health: 100,
     inventory: [],
-    companion:'',
+    companion:null,
     visitedLocations: {
         house1: {
             hasEntered: false,
@@ -14,4 +14,10 @@ const playerState = {
     },
 };
 
-export default playerState;
+export const companionState = {
+    name: '',
+    weapon: '',
+    health: 50
+};
+
+export const possibleCompanions = []
