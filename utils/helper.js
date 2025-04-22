@@ -59,3 +59,26 @@ export function appliedHealing() {
         console.log('You do not have a medkit to use.');
     }
 }
+
+export function addCompanion() {
+    return inquirer
+        .prompt(companionPrompt)
+        .then(companionPromptAnswers => {
+            if (companionPromptAnswers.companionPrompt === 'Yes') {
+                // Ensure the companion list exists
+                if (!Array.isArray(playerState.companion)) {
+                    playerState.companion = [];
+                }
+
+                // Prevent adding the same companion twice
+                if (!playerState.companion.includes(companionState.name)) {
+                    playerState.companion.push(companionState.name);
+                    console.log(`${companionState.name} has joined your party!`);
+                } else {
+                    console.log(`${companionState.name} is already in your party.`);
+                }
+            } else {
+                console.log('You decided not to add a companion right now.');
+            }
+        });
+}
