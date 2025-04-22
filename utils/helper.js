@@ -34,7 +34,7 @@ export function appliedHealing() {
             .prompt(useMedkit)
             .then(useMedkitAnswers => {
                 if (useMedkitAnswers.useMedkit === 'Yes') {
-                    const healingValues = [2 - 5];
+                    const healingValues = [2, 3, 4, 5];
                     const randomIndex = Math.floor(Math.random() * healingValues.length);
                     const healing = healingValues[randomIndex];
                     const maxHealth = 100;
